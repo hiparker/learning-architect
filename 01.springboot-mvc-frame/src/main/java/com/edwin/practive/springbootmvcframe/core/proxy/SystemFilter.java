@@ -70,7 +70,8 @@ public class SystemFilter implements Filter{
 
         boolean flagUri = validataAuthUri(user.getMenuAll(),user.getMenus(),uri);
         if(!flagUri){
-            response.sendRedirect("/a/account/index");
+            // 转发 不修改url
+            request.getRequestDispatcher("/a/account/index").forward(request, response);
             return;
         }
 
