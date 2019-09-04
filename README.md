@@ -9,4 +9,6 @@
       后端：SpringBoot、Mybatis、PageHelper、FilterRBAC
       
       前端：Thymeleaf、Bootstarp、BootstarpTable、BootstarpTree、jsTree、Layer
+      
+      账号密码：admin/123
   
