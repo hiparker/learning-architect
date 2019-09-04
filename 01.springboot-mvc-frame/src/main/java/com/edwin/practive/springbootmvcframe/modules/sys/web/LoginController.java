@@ -20,6 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+/**
+ * 登录
+ * @author Edwin
+ */
 @Controller
 @RequestMapping("account")
 public class LoginController extends BaseController{
@@ -34,8 +38,6 @@ public class LoginController extends BaseController{
     MenuService menuService;
 
 
-
-
     @RequestMapping("index")
     public String index(User user,HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception{
         User userT = (User) request.getSession().getAttribute("user");
@@ -43,6 +45,7 @@ public class LoginController extends BaseController{
             modelMap.addAttribute("user",userT);
             return "modules/sys/index";
         }else{
+
             AjaxJson j = loginService.validataLogin(user.getAccount(),user.getPassword());
             if(j.isSuccess()){
 

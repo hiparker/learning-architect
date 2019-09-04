@@ -157,6 +157,16 @@ public class RoleController extends BaseController{
     public AjaxJson save(Role role,ModelMap map){
         AjaxJson j = new AjaxJson();
 
+        /**
+         * 后台hibernate-validation 插件校验
+         */
+        String errMsg = beanValidator(role);
+        if (StringUtils.isNotBlank(errMsg)){
+            j.setSuccess(false);
+            j.setMsg(errMsg);
+            return j;
+        }
+
         if(!StringUtils.isEmpty(role.getId()) && YES.equals(role.getIsSys())){
             j.setMsg("系统数据只有超级管理员可以修改！");
             j.setSuccess(false);

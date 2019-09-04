@@ -5,6 +5,8 @@ package com.edwin.practive.springbootmvcframe.modules.sys.entity;
 
 import com.edwin.practive.springbootmvcframe.core.persistence.DataEntity;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 角色Entity
  * @author Edwin
@@ -14,8 +16,11 @@ public class Role extends DataEntity<Role> {
 
 	private static final long serialVersionUID = 1L;
 
+    @NotBlank()
 	private String name; 	// 名称
+    @NotBlank
 	private String enname; 	// 英文名称
+    @NotBlank
     private String isSys;   // 是否启用字符串
     private String menuIds; // 菜单ID
 

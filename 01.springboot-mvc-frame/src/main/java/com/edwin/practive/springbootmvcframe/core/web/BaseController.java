@@ -5,7 +5,9 @@ package com.edwin.practive.springbootmvcframe.core.web;
 
 import java.beans.PropertyEditorSupport;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,8 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import com.edwin.practive.springbootmvcframe.common.beanvalidator.BeanValidators;
+import com.edwin.practive.springbootmvcframe.common.utils.DateUtils;
 import com.edwin.practive.springbootmvcframe.core.persistence.Page;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
@@ -51,7 +55,59 @@ public abstract class BaseController {
 	 */
 	@Autowired
 	protected Validator validator;
-	
+
+    /**
+    * 服务端参数有效性验证
+    * @param object 验证的实体对象
+    * @param groups 验证组
+    * @return 验证成功：返回true；严重失败：将错误信息添加到 message 中
+    */
+    protected boolean beanValidator(Model model, Object object, Class<?>... groups) {
+        try{
+            BeanValidators.validateWithException(validator, object, groups);
+        }catch(ConstraintViolationException ex){
+            List<String> list = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
+            list.add(0, "数据验证失败：");
+            addMessage(model, list.toArray(new String[]{}));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 服务端参数有效性验证
+     * @param object 验证的实体对象
+     * @param groups 验证组
+     * @return 验证成功：message
+     */
+    protected String beanValidator(Object object, Class<?>... groups) {
+        try{
+            BeanValidators.validateWithException(validator, object, groups);
+        }catch(ConstraintViolationException ex){
+            List<String> list = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
+            list.add(0, "数据验证失败：");
+            return getMessage(list.toArray(new String[]{}));
+        }
+        return "";
+    }
+
+    /**
+     * 服务端参数有效性验证
+     * @param object 验证的实体对象
+     * @param groups 验证组
+     * @return 验证成功：返回true；严重失败：将错误信息添加到 flash message 中
+     */
+    protected boolean beanValidator(RedirectAttributes redirectAttributes, Object object, Class<?>... groups) {
+        try{
+            BeanValidators.validateWithException(validator, object, groups);
+        }catch(ConstraintViolationException ex){
+            List<String> list = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
+            list.add(0, "数据验证失败：");
+            addMessage(redirectAttributes, list.toArray(new String[]{}));
+            return false;
+        }
+        return true;
+    }
 
 	
 	/**
@@ -112,8 +168,8 @@ public abstract class BaseController {
 	 * 参数绑定异常
 	 */
 	@ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class})
-    public String bindException() {  
-        return "error/400";
+    public String bindException() {
+        return "modules/sys/error/400";
     }
 	
 	/**
@@ -121,16 +177,16 @@ public abstract class BaseController {
 	 */
 /*	@ExceptionHandler({AuthenticationException.class})
     public String authenticationException() {  
-        return "error/403";
+        return "modules/sys/error/403";
     }*/
 	
 	/**
 	 *系统登录异常
 	 */
-/*	@ExceptionHandler({Exception.class})
+	@ExceptionHandler({Exception.class})
     public String exception() {  
-        return "error/500";
-    }*/
+        return "modules/sys/error/500";
+    }
 	
 	/**
 	 * 初始化数据绑定
@@ -152,17 +208,17 @@ public abstract class BaseController {
 			}
 		});
 		// Date 类型转换
-/*		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
+		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
 			@Override
 			public void setAsText(String text) {
 				setValue(DateUtils.parseDate(text));
 			}
-//			@Override
-//			public String getAsText() {
-//				Object value = getValue();
-//				return value != null ? DateUtils.formatDateTime((Date)value) : "";
-//			}
-		});*/
+			@Override
+			public String getAsText() {
+				Object value = getValue();
+				return value != null ? DateUtils.formatDateTime((Date)value) : "";
+			}
+		});
 	}
 	
 	

@@ -95,6 +95,17 @@ public class UserController extends BaseController{
     @ResponseBody
     public AjaxJson save(User user,ModelMap map){
         AjaxJson j = new AjaxJson();
+
+        /**
+         * 后台hibernate-validation 插件校验
+         */
+        String errMsg = beanValidator(user);
+        if (StringUtils.isNotBlank(errMsg)){
+            j.setSuccess(false);
+            j.setMsg(errMsg);
+            return j;
+        }
+
         userService.save(user);
         j.setMsg("保存成功！");
         return j;

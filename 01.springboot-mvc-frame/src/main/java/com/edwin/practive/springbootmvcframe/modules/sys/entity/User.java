@@ -4,17 +4,22 @@ import com.edwin.practive.springbootmvcframe.core.mapper.JsonMapper;
 import com.edwin.practive.springbootmvcframe.core.persistence.DataEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class User extends DataEntity<User>{
 
     private static final long serialVersionUID = 1L;
 
+
     //名称
+    @NotBlank
     private String name;
     //编号
+    @NotBlank
     private String code;
     //登录账号
+    @NotBlank
     private String account;
     //登录密码
     private String password;
@@ -25,6 +30,7 @@ public class User extends DataEntity<User>{
     private String tel;
 
     //角色Ids
+    @NotBlank
     private String roleIds;
 
     //角色Names

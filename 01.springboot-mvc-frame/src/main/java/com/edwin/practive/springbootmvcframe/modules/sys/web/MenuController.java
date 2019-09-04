@@ -233,6 +233,17 @@ public class MenuController extends BaseController{
     @ResponseBody
     public AjaxJson save(Menu menu,ModelMap map){
         AjaxJson j = new AjaxJson();
+
+        /**
+         * 后台hibernate-validation 插件校验
+         */
+        String errMsg = beanValidator(menu);
+        if (StringUtils.isNotBlank(errMsg)){
+            j.setSuccess(false);
+            j.setMsg(errMsg);
+            return j;
+        }
+
         menuService.save(menu);
         j.setMsg("保存成功！");
         return j;
