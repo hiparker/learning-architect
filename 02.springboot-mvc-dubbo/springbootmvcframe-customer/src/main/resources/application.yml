@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /a
+
+spring:
+  application:
+    name: DubboCustomer
+dubbo:
+  scan:
+    base-packages: com.edwin.db.service
+  registry:
+    address: zookeeper://192.168.88.41:2181
+

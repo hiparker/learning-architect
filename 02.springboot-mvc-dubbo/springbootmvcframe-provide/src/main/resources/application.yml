@@ -1,0 +1,39 @@
+server:
+  port: 600
+
+dubbo:
+  scan:
+    base-packages: com.edwin.db.service
+  registry:
+    address: zookeeper://192.168.88.41:2181
+  protocol:
+    name: dubbo
+    port: 666
+    host: 192.168.101.106
+
+#数据库jpa
+spring:
+  application:
+    name: DubboProvider
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  #mybatis配置文件所在路径
+  config-location: classpath:mybatis/mybatis-config.xml
+  #定义所有操作类的别名所在包
+  type-aliases-package: com.edwin.practive.springbootmvcframe.modules.**.entity
+  #所有的mapper映射文件
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+
+#打印mybatis日志
+logging:
+  level:
+    com.edwin.practive.springbootmvcframe.modules.sys.mapper: debug
+
+#AES加密Key
+aeskey: 123456
+
