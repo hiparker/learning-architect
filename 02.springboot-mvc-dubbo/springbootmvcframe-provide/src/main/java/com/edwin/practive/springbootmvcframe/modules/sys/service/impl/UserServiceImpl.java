@@ -12,14 +12,14 @@ import com.edwin.practive.springbootmvcframe.modules.sys.mapper.UserMapper;
 import com.edwin.practive.springbootmvcframe.modules.sys.service.IUserService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Service(version = "1.0.0",timeout = 10000,interfaceClass = IUserService.class)
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class UserServiceImpl extends CrudService<UserMapper,User> implements IUserService {
 
     private final static String YES = "1";
@@ -38,7 +38,7 @@ public class UserServiceImpl extends CrudService<UserMapper,User> implements IUs
      * @param user
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     @Override
     public AjaxJson updatePassword(User user){
         AjaxJson j = new AjaxJson();
@@ -68,7 +68,7 @@ public class UserServiceImpl extends CrudService<UserMapper,User> implements IUs
      * @param user
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     @Override
     public int save(User user){
         if(StringUtils.isEmpty(user.getPassword())){
@@ -98,7 +98,7 @@ public class UserServiceImpl extends CrudService<UserMapper,User> implements IUs
      * @param user
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public int remove(User user){
         // 删除用户角色
         mapper.deleteUserRole(user);

@@ -18,8 +18,8 @@ import java.util.List;
  * 拦截器
  * @author Edwin
  */
-//@Component
-//@WebFilter(urlPatterns = "/")
+@Component
+@WebFilter(urlPatterns = "/")
 public class SystemFilter implements Filter {
     private static final String LOGIN_URI = "/account/login";
     private static final String[] IGNORE_URI = {"/account/login","/account/index","/account/getAuth","/account/hello"};

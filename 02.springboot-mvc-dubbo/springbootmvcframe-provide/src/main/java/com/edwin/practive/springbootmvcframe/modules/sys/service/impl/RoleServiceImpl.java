@@ -10,13 +10,13 @@ import com.edwin.practive.springbootmvcframe.modules.sys.service.IRoleService;
 import com.edwin.practive.springbootmvcframe.modules.sys.service.IUserService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//import org.springframework.transaction.annotation.Transactional;
 @Component
 @Service(version = "1.0.0",timeout = 10000,interfaceClass = IRoleService.class)
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class RoleServiceImpl extends CrudService<RoleMapper,Role> implements IRoleService {
 
     private final static String YES = "1";
@@ -28,7 +28,7 @@ public class RoleServiceImpl extends CrudService<RoleMapper,Role> implements IRo
      * @param role
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     @Override
     public int save(Role role){
         return super.save(role);
@@ -39,7 +39,7 @@ public class RoleServiceImpl extends CrudService<RoleMapper,Role> implements IRo
      * @param role
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public int roleMenuSave(Role role){
         // 删除已有菜单权限
         mapper.deleteRoleMenu(role);
@@ -63,7 +63,7 @@ public class RoleServiceImpl extends CrudService<RoleMapper,Role> implements IRo
      * @param role
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public int remove(Role role){
         // 删除已有菜单权限
         mapper.deleteRoleMenu(role);

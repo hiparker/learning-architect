@@ -9,13 +9,13 @@ import com.edwin.practive.springbootmvcframe.modules.sys.service.IUserService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-//import org.springframework.transaction.annotation.Transactional;
 @Component
 @Service(version = "1.0.0",timeout = 10000,interfaceClass = IMenuService.class)
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class MenuServiceImpl extends CrudService<MenuMapper,Menu> implements IMenuService  {
 
     private static final String ZERO = "0"; //顶级菜单
@@ -31,7 +31,7 @@ public class MenuServiceImpl extends CrudService<MenuMapper,Menu> implements IMe
      * @param menu
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     @Override
     public int save(Menu menu){
 
@@ -53,7 +53,7 @@ public class MenuServiceImpl extends CrudService<MenuMapper,Menu> implements IMe
      * @param menu
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public int remove(Menu menu){
         if(menu.getParentId().equals(0)){
             return 0;

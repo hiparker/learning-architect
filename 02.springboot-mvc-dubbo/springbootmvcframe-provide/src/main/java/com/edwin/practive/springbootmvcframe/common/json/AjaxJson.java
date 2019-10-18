@@ -6,6 +6,7 @@ package com.edwin.practive.springbootmvcframe.common.json;
 import com.edwin.practive.springbootmvcframe.core.mapper.JsonMapper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 
@@ -15,7 +16,9 @@ import java.util.LinkedHashMap;
  * @author Edwin
  * 
  */
-public class AjaxJson {
+public class AjaxJson implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
 	private boolean success = true;// 是否成功
 	private String errorCode = "-1";//错误代码
