@@ -13,7 +13,7 @@
       账号密码：admin/123
       
       
-  02.springboot-mvc-frame (dubbo分布式版)
+  02.springboot-mvc-dubbo (dubbo分布式版)
   采用的是最简单的权限控制，filter的RBAC，功能包含 登录、菜单、角色、用户、权限,后端密码采用MD5加密
   
   相应技术栈：
