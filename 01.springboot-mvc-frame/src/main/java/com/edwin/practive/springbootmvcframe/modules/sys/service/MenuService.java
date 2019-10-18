@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-//import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class MenuService extends CrudService<MenuMapper,Menu>{
 
     private static final String ZERO = "0"; //顶级菜单
@@ -28,7 +28,7 @@ public class MenuService extends CrudService<MenuMapper,Menu>{
      * @param menu
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     @Override
     public int save(Menu menu){
 
@@ -50,7 +50,7 @@ public class MenuService extends CrudService<MenuMapper,Menu>{
      * @param menu
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public int remove(Menu menu){
         if(menu.getParentId().equals(0)){
             return 0;

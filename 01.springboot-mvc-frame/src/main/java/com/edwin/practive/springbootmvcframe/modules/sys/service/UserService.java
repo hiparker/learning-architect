@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class UserService extends CrudService<UserMapper,User>{
 
     private final static String YES = "1";
@@ -34,7 +34,7 @@ public class UserService extends CrudService<UserMapper,User>{
      * @param user
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public AjaxJson updatePassword(User user){
         AjaxJson j = new AjaxJson();
         User temp = this.get(user);
@@ -63,7 +63,7 @@ public class UserService extends CrudService<UserMapper,User>{
      * @param user
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     @Override
     public int save(User user){
         if(StringUtils.isEmpty(user.getPassword())){
@@ -93,7 +93,7 @@ public class UserService extends CrudService<UserMapper,User>{
      * @param user
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public int remove(User user){
         // 删除用户角色
         mapper.deleteUserRole(user);

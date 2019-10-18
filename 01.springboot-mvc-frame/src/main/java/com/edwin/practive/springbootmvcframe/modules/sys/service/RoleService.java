@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class RoleService extends CrudService<RoleMapper,Role>{
 
     private final static String YES = "1";
@@ -25,7 +25,7 @@ public class RoleService extends CrudService<RoleMapper,Role>{
      * @param role
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     @Override
     public int save(Role role){
         return super.save(role);
@@ -36,7 +36,7 @@ public class RoleService extends CrudService<RoleMapper,Role>{
      * @param role
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public int roleMenuSave(Role role){
         // 删除已有菜单权限
         mapper.deleteRoleMenu(role);
@@ -60,7 +60,7 @@ public class RoleService extends CrudService<RoleMapper,Role>{
      * @param role
      * @return
      */
-    //@Transactional(readOnly = false)
+    @Transactional(readOnly = false)
     public int remove(Role role){
         // 删除已有菜单权限
         mapper.deleteRoleMenu(role);
