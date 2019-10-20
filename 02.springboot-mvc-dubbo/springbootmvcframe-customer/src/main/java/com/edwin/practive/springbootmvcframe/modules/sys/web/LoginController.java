@@ -6,10 +6,7 @@ import com.edwin.practive.springbootmvcframe.core.web.BaseController;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.Menu;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.Role;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.User;
-import com.edwin.practive.springbootmvcframe.modules.sys.service.ILoginService;
-import com.edwin.practive.springbootmvcframe.modules.sys.service.IMenuService;
-import com.edwin.practive.springbootmvcframe.modules.sys.service.IRoleService;
-import com.edwin.practive.springbootmvcframe.modules.sys.service.IUserService;
+import com.edwin.practive.springbootmvcframe.modules.sys.service.*;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +35,8 @@ public class LoginController extends BaseController{
     @Reference(version = "1.0.0")
     IMenuService menuService;
 
+    @Autowired
+    MenuService menuServiceT;
 
     @RequestMapping("index")
     public String index(User user, HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception{
@@ -91,7 +90,7 @@ public class LoginController extends BaseController{
                     // 复制一个新的菜单集合 循环set 判断其父节点是否存在 不存在的话 就去取一个父节点添加进去
                     // 递归补全大法
                     List<Menu> authCopy = new ArrayList<>(auth);
-                    menuService.setParentMenu(menuMap,authCopy,auth);
+                    menuServiceT.setParentMenu(menuMap,authCopy,auth);
 
 
                     // 去重

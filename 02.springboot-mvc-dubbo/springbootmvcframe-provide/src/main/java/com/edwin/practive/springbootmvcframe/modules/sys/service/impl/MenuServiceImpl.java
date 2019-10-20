@@ -182,6 +182,47 @@ public class MenuServiceImpl extends CrudService<MenuMapper,Menu> implements IMe
         }
     }
 
+    // 递归处理菜单数据
+    @Override
+    public List<Menu> recursionMenuReturn(List<Menu> menus,Menu tree){
+        if(tree != null){
+
+            boolean saveFlag = false;
+
+            // 目录/菜单
+            if("0".equals(tree.getType()) || "1".equals(tree.getType())){
+                if(YES.equals(tree.getIsVisible())){
+                    menus.add(tree);
+                    saveFlag = true;
+                }
+            }
+            // 按钮
+            if("2".equals(tree.getType())){
+                menus.add(tree);
+                saveFlag = true;
+            }
+
+            if(saveFlag){
+                if(null != tree.getChildren() && tree.getChildren().size() > 0){
+                    for (Menu menu : tree.getChildren()) {
+                        // 菜单
+                        if("0".equals(tree.getType()) || "1".equals(tree.getType())){
+                            if(YES.equals(tree.getIsVisible())){
+                                recursionMenu(menus,menu);
+                            }
+                        }
+                        // 按钮
+                        if("2".equals(tree.getType())){
+                            recursionMenu(menus,menu);
+                        }
+                    }
+                }
+            }
+        }
+
+        return menus;
+    }
+
     @Override
     public void setParentMenu(Map<String,Menu> menuMapTemp , List<Menu> authCopy,Set<Menu> auth) {
         int count = 0;

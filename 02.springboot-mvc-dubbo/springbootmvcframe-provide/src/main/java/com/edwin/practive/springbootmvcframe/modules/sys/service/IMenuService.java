@@ -21,4 +21,6 @@ public interface IMenuService extends CrudInterface<Menu> {
 
     void recursionMenu(List<Menu> menus, Menu tree);
 
+    List<Menu> recursionMenuReturn(List<Menu> menus, Menu tree);
+
 }

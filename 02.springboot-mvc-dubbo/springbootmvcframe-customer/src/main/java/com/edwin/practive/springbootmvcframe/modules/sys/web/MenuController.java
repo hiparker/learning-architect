@@ -7,6 +7,7 @@ import com.edwin.practive.springbootmvcframe.modules.sys.entity.Menu;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.Role;
 import com.edwin.practive.springbootmvcframe.modules.sys.service.IMenuService;
 import com.edwin.practive.springbootmvcframe.modules.sys.service.IRoleService;
+import com.edwin.practive.springbootmvcframe.modules.sys.service.MenuService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.dubbo.config.annotation.Reference;
@@ -33,6 +34,9 @@ public class MenuController extends BaseController {
     IMenuService menuService;
     @Reference(version = "1.0.0")
     IRoleService roleService;
+
+    @Autowired
+    MenuService menuServiceT;
 
     /**
      * 进入 默认查询一条数据
@@ -90,7 +94,7 @@ public class MenuController extends BaseController {
 
         Menu tree = menuService.getMenuTrees(menusTemp);
         // 递归处理数据
-        menuService.recursionMenu(menus,tree);
+        menuServiceT.recursionMenu(menus,tree);
 
 
         String[] menuIds = roleService.getRoleMenu(new Role(selectIdFlag));
@@ -149,10 +153,7 @@ public class MenuController extends BaseController {
             mapList.add(map);
         }
 
-        System.out.println(count);
-
         return mapList;
-
     }
 
 
