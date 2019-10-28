@@ -18,12 +18,12 @@ import java.util.List;
  * 拦截器
  * @author Edwin
  */
-@Component
-@WebFilter(urlPatterns = "/")
+//@Component
+//@WebFilter(urlPatterns = "/")
 public class SystemFilter implements Filter {
     private static final String LOGIN_URI = "/account/login";
-    private static final String[] IGNORE_URI = {"/account/login","/account/index","/account/getAuth","/account/hello"};
     private static List<String> file_ends;
+    private static List<String> ignode_uri;
 
     static{
         file_ends = new ArrayList<>();
@@ -31,6 +31,14 @@ public class SystemFilter implements Filter {
         String[] ends = endStr.split(",");
         for (String end : ends) {
             file_ends.add(end);
+        }
+
+
+        ignode_uri = new ArrayList<>();
+        String authUriStr = PropertiesUtil.getConfig("authUri");
+        String[] authUris = authUriStr.split(",");
+        for (String uris : authUris) {
+            ignode_uri.add(uris);
         }
     }
 
@@ -89,7 +97,7 @@ public class SystemFilter implements Filter {
     }
 
     public boolean validataUri(String uri){
-        for (String uriTemp : IGNORE_URI) {
+        for (String uriTemp : ignode_uri) {
             if(uri.indexOf(uriTemp) != -1){
                 return true;
             }

@@ -10,6 +10,8 @@ import com.edwin.practive.springbootmvcframe.modules.sys.service.IRoleService;
 import com.edwin.practive.springbootmvcframe.modules.sys.service.MenuService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -26,6 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("api/v1.0.0/menu")
+@Api(value = "菜单 RestController")
 public class MenuRestController extends BaseController {
 
 
@@ -54,6 +57,7 @@ public class MenuRestController extends BaseController {
         return entity;
     }
 
+    @ApiOperation(value = "获取树状角色数据")
     @GetMapping("treeByRoleData")
     public List<Map<String, Object>> treeByRoleData(String selectIdFlag,Menu menu,ModelMap modelMap){
 
@@ -125,6 +129,7 @@ public class MenuRestController extends BaseController {
     }
 
 
+    @ApiOperation(value = "获取树状菜单数据")
     @GetMapping("treeData")
     public List<Map<String, Object>> treeData(String selectIdFlag,Menu menu,ModelMap modelMap){
 
@@ -186,6 +191,7 @@ public class MenuRestController extends BaseController {
     }
 
 
+    @ApiOperation(value = "获取数据")
     @GetMapping("data")
     public List<Menu> data(Menu menu, ModelMap map){
         return menuService.findListAll();
@@ -193,6 +199,7 @@ public class MenuRestController extends BaseController {
 
 
 
+    @ApiOperation(value = "保存菜单")
     @PostMapping("save")
     public AjaxJson save(Menu menu, ModelMap map){
         AjaxJson j = new AjaxJson();
@@ -212,6 +219,7 @@ public class MenuRestController extends BaseController {
         return j;
     }
 
+    @ApiOperation(value = "删除菜单")
     @PostMapping("del")
     public AjaxJson del(Menu menu, ModelMap map){
         AjaxJson j = new AjaxJson();
@@ -220,6 +228,7 @@ public class MenuRestController extends BaseController {
         return j;
     }
 
+    @ApiOperation(value = "删除多个菜单")
     @PostMapping("delAll")
     public AjaxJson delAll(@RequestBody List<Map<String,String>>  list, ModelMap map){
         AjaxJson j = new AjaxJson();

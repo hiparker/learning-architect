@@ -6,6 +6,7 @@ package com.edwin.practive.springbootmvcframe.core.web;
 import com.edwin.practive.springbootmvcframe.common.beanvalidator.BeanValidators;
 import com.edwin.practive.springbootmvcframe.common.utils.DateUtils;
 import com.edwin.practive.springbootmvcframe.core.persistence.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

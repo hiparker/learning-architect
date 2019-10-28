@@ -10,6 +10,8 @@ import com.edwin.practive.springbootmvcframe.modules.sys.service.IRoleService;
 import com.edwin.practive.springbootmvcframe.modules.sys.service.IUserService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("api/v1.0.0/role")
+@Api(value = "角色 RestController")
 public class RoleRestController extends BaseController{
 
 
@@ -54,6 +57,7 @@ public class RoleRestController extends BaseController{
     }
 
 
+    @ApiOperation(value = "获取数据")
     @PostMapping("data")
     public Map<String, Object> data(Page page, Role role, ModelMap map){
         //简单分页
@@ -67,6 +71,7 @@ public class RoleRestController extends BaseController{
      * @param map
      * @return
      */
+    @ApiOperation(value = "保存角色菜单")
     @PostMapping("saveRoleMenu")
     public AjaxJson saveRoleMenu(Role role, ModelMap map){
         AjaxJson j = new AjaxJson();
@@ -74,6 +79,7 @@ public class RoleRestController extends BaseController{
         return j;
     }
 
+    @ApiOperation(value = "获取树状角色数据")
     @GetMapping("treeData")
     public List<Map<String, Object>> treeData(String selectIdFlag, Role role, ModelMap modelMap){
         List<Role> roles = roleService.findList(role);
@@ -130,6 +136,7 @@ public class RoleRestController extends BaseController{
     }
 
 
+    @ApiOperation(value = "保存数据")
     @PostMapping("save")
     public AjaxJson save(Role role, ModelMap map){
         AjaxJson j = new AjaxJson();
@@ -155,6 +162,7 @@ public class RoleRestController extends BaseController{
         return j;
     }
 
+    @ApiOperation(value = "删除数据")
     @PostMapping("del")
     public AjaxJson del(Role role, ModelMap map){
         AjaxJson j = new AjaxJson();
@@ -163,6 +171,7 @@ public class RoleRestController extends BaseController{
         return j;
     }
 
+    @ApiOperation(value = "删除多个数据")
     @PostMapping("delAll")
     public AjaxJson delAll(@RequestBody List<Map<String,String>>  list, ModelMap map){
         AjaxJson j = new AjaxJson();

@@ -6,6 +6,8 @@ import com.edwin.practive.springbootmvcframe.core.persistence.Page;
 import com.edwin.practive.springbootmvcframe.core.web.BaseController;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.User;
 import com.edwin.practive.springbootmvcframe.modules.sys.service.IUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +23,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("api/v1.0.0/user")
+@Api(value = "用户 RestController")
 public class UserRestController extends BaseController{
 
 
@@ -44,12 +47,14 @@ public class UserRestController extends BaseController{
         return entity;
     }
 
+    @ApiOperation(value = "修改密码")
     @PostMapping("updatePassword")
     public AjaxJson updatePassword(User user, HttpServletRequest request, ModelMap map){
         return userService.updatePassword(user);
     }
 
 
+    @ApiOperation(value = "获取数据")
     @PostMapping("data")
     public Map<String, Object> data(HttpServletRequest request, Page page, User user, ModelMap map){
         User sessionUser = (User) request.getSession().getAttribute("user");
@@ -63,7 +68,7 @@ public class UserRestController extends BaseController{
     }
 
 
-
+    @ApiOperation(value = "保存数据")
     @PostMapping("save")
     public AjaxJson save(User user,ModelMap map){
         AjaxJson j = new AjaxJson();
@@ -83,6 +88,7 @@ public class UserRestController extends BaseController{
         return j;
     }
 
+    @ApiOperation(value = "删除数据")
     @PostMapping("del")
     public AjaxJson del(User user,ModelMap map){
         AjaxJson j = new AjaxJson();
@@ -91,6 +97,7 @@ public class UserRestController extends BaseController{
         return j;
     }
 
+    @ApiOperation(value = "删除多个数据")
     @PostMapping("delAll")
     public AjaxJson delAll(@RequestBody List<Map<String,String>>  list, ModelMap map){
         AjaxJson j = new AjaxJson();

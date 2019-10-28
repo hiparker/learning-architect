@@ -20,3 +20,28 @@ aeskey: 123456
 
 #静态文件后缀
 webStaticFile: .css,.js,.png,.jpg,.gif,.jpeg,.bmp,.ico,.swf,.psd,.htc,.htm,.html,.crx,.xpi,.exe,.ipa,.apk
+
+#不需要拦截uri
+authUri: /account/login,/account/index,/account/getAuth,/account/hello,/wx/sig,/v2/api-docs
+
+#微信认证
+weixin:
+  appID: wx1f124c7fbe347e2b
+  appsecret: 50e0f974274714c96e0a174cdd9e830b
+  tokenString: edwin
+
+#swagger
+swagger:
+  contact:
+    email: meet.edwin@foxmail.com
+    name: Edwin
+  docket:
+    restcontroller:
+      title: SmartDevelop api接口
+      base-package: com.edwin.practive.springbootmvcframe.modules.sys.webrest
+      version: 1.0.0
+      description: 对应的前后端开发接口api
+  host: 127.0.01:8081
+  version: 1.0.0
+
+

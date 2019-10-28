@@ -5,6 +5,8 @@ package com.edwin.practive.springbootmvcframe.common.json;
 
 import com.edwin.practive.springbootmvcframe.core.mapper.JsonMapper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -16,13 +18,18 @@ import java.util.LinkedHashMap;
  * @author Edwin
  * 
  */
+@ApiModel(value = "统一数据格式")
 public class AjaxJson implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "是否成功", name = "success",dataType = "boolean")
 	private boolean success = true;// 是否成功
+    @ApiModelProperty(value = "错误代码", name = "errorCode",dataType = "String")
 	private String errorCode = "-1";//错误代码
+    @ApiModelProperty(value = "提示信息", name = "msg",dataType = "String")
 	private String msg = "操作成功";// 提示信息
+    @ApiModelProperty(value = "封装json的map", name = "body",dataType = "LinkedHashMap<String, Object>")
 	private LinkedHashMap<String, Object> body = new LinkedHashMap<String, Object>();//封装json的map
 
 	public LinkedHashMap<String, Object> getBody() {

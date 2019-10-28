@@ -3,6 +3,8 @@ package com.edwin.practive.springbootmvcframe.modules.sys.webrest;
 import com.edwin.practive.springbootmvcframe.common.json.AjaxJson;
 import com.edwin.practive.springbootmvcframe.core.web.BaseController;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.User;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +19,10 @@ import java.util.LinkedHashMap;
  */
 @RestController
 @RequestMapping("api/v1.0.0/account")
+@Api(value = "登录 RestController")
 public class LoginRestController extends BaseController{
 
-
+    @ApiOperation(value = "获得授权数据")
     @GetMapping("getAuth")
     public AjaxJson getAuth(HttpServletRequest request, ModelMap modelMap){
         AjaxJson j = new AjaxJson();
