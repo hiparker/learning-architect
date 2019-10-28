@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
  * @author Edwin
  * 
  */
-@ApiModel(value = "统一数据格式")
+@ApiModel(description = "统一数据格式")
 public class AjaxJson implements Serializable {
 
     private static final long serialVersionUID = 1L;
