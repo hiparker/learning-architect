@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: wxprovide
+  #开启 aop
+  aop:
+    proxy-target-class: true
