@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Smart.Develop 系统</title>
     <script th:src="@{/plugin/jquery/jquery-2.0.0.min.js}"></script>
+    <script th:src="@{/common/js/base.js}"></script>
     <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" th:href="@{/common/css/base.css}">
@@ -49,7 +50,7 @@
                 title: "个人信息",
                 auto:auto,
                 maxmin: true, //开启最大化最小化按钮
-                content: "/a/user/info" ,
+                content: config.prefix+"/user/info" ,
                 btn:  ['关闭'],
                 btn1: function(index){
                     top.layer.close(index);
@@ -70,7 +71,7 @@
                 title: "修改密码",
                 auto:auto,
                 maxmin: true, //开启最大化最小化按钮
-                content: "/a/user/updatePasswordForm" ,
+                content: config.prefix+"/user/updatePasswordForm" ,
                 btn: ['确定', '关闭'],
                 yes: function(index, layero){
                     var iframeWin = layero.find('iframe')[0]; //得到弹出的窗口对象，执行窗口内iframe页的方法：iframeWin.method();
@@ -88,7 +89,7 @@
                     });
 
                     $.ajax({
-                        url:"/a/user/updatePassword",
+                        url:config.apiPrefix+"/user/updatePassword",
                         type:"post",
                         data:iframeWin.contentWindow.getValue(),
                         success:function(data){
@@ -116,8 +117,8 @@
 
             // 获取权限数据
             $.ajax({
-                url:"/a/account/getAuth",
-                type:"post",
+                url:config.apiPrefix+"/account/getAuth",
+                type:"get",
                 async:false, // 关闭异步
                 success:function(data){
                     if(data.success){

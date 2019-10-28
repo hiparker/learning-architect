@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>角色列表</title>
     <script th:src="@{/plugin/jquery/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/common/js/base.js}"></script>
     <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" th:href="@{/plugin/bootstrap-button/bootstrap-buttons.css}">
@@ -80,7 +81,7 @@
                 //可供选择的每页的行数（*）
                 pageList: [5, 15, 50, 100],
                 //这个接口需要处理bootstrap table传递的固定参数,并返回特定格式的json数据
-                url: "/a/role/data",
+                url: config.apiPrefix+"/role/data",
                 //默认值为 'limit',传给服务端的参数为：limit, offset, search, sort, order Else
                 //queryParamsType:'',
                 ////查询参数,每次调用是会带上这个参数，可自定义
@@ -269,7 +270,7 @@
                         headers:{
                             "Content-Type":"application/json"
                         },
-                        url:"/a/role/delAll",
+                        url:config.apiPrefix+"/role/delAll",
                         type:"post",
                         data:JSON.stringify(params),
                         success:function(data){
@@ -302,7 +303,7 @@
                 title: "编辑",
                 auto:auto,
                 maxmin: true, //开启最大化最小化按钮
-                content: "/a/role/form?id="+id ,
+                content: config.prefix+"/role/form?id="+id ,
                 btn: ['确定', '关闭'],
                 yes: function(index, layero){
                     var iframeWin = layero.find('iframe')[0]; //得到弹出的窗口对象，执行窗口内iframe页的方法：iframeWin.method();
@@ -318,7 +319,7 @@
                         });
 
                         $.ajax({
-                            url: "/a/role/save",
+                            url: config.apiPrefix+"/role/save",
                             type: "post",
                             data: iframeWin.contentWindow.getValue(),
                             success: function (data) {
@@ -354,7 +355,7 @@
                 title: "添加",
                 auto:auto,
                 maxmin: true, //开启最大化最小化按钮
-                content: "/a/role/form" ,
+                content: config.prefix+"/role/form" ,
                 btn: ['确定', '关闭'],
                 yes: function(index, layero){
                     var iframeWin = layero.find('iframe')[0]; //得到弹出的窗口对象，执行窗口内iframe页的方法：iframeWin.method();
@@ -378,7 +379,7 @@
                         });
 
                         $.ajax({
-                            url: "/a/role/save",
+                            url: config.apiPrefix+"/role/save",
                             type: "post",
                             data: iframeWin.contentWindow.getValue(),
                             success: function (data) {
@@ -432,7 +433,7 @@
             }
 
             var title = "选择菜单";
-            var url = "/a/menu/treeDataByRoleForm";
+            var url = config.prefix+"/menu/treeDataByRoleForm";
             var checked = true;
 
             // 正常打开
@@ -485,7 +486,7 @@
                     });
 
                     $.ajax({
-                        url: "/a/role/saveRoleMenu",
+                        url: config.apiPrefix+"/role/saveRoleMenu",
                         type: "post",
                         data: {
                             id:id,

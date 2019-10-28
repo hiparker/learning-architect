@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>保存</title>
         <script th:src="@{/plugin/jquery/jquery-3.4.1.min.js}"></script>
+        <script th:src="@{/common/js/base.js}"></script>
         <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap.min.css}">
         <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap-theme.min.css}">
         <link rel="stylesheet" th:href="@{/common/css/base.css}">
@@ -71,7 +72,7 @@
                         area: ['300px', '420px'],
                         title:"选择菜单",
                         ajaxData:{selectIds: $("#parentMenuId").val()},
-                        content: "/a/menu/treeDataForm",
+                        content: config.prefix+"/menu/treeDataForm",
                         btn: ['确定', '关闭']
                         ,yes: function(index, layero){ //或者使用btn1
                             var tree = layero.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();

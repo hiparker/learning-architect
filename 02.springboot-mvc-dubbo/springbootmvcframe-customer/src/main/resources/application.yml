@@ -12,6 +12,9 @@ spring:
   application:
     name: DubboCustomer
 
+#版本
+version: 1.0.0
+
 #AES加密Key
 aeskey: 123456
 

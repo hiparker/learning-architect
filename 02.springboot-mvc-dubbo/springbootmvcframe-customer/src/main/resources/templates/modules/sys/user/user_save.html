@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>保存</title>
     <script th:src="@{/plugin/jquery/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/common/js/base.js}"></script>
     <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" th:href="@{/common/css/base.css}">
@@ -76,7 +77,7 @@
             var paramsId = "roleIds";
             var paramsName = "roleNames";
             var title = "选择角色";
-            var url = "/a/role/treeDataForm";
+            var url = config.prefix+"/role/treeDataForm";
             var checked = true;
 
             if ($("#"+params+"Button").hasClass("disabled")){

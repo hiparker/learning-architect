@@ -53,6 +53,7 @@ public class MenuServiceImpl extends CrudService<MenuMapper,Menu> implements IMe
      * @param menu
      * @return
      */
+    @Override
     @Transactional(readOnly = false)
     public int remove(Menu menu){
         if(menu.getParentId().equals(0)){
@@ -66,6 +67,8 @@ public class MenuServiceImpl extends CrudService<MenuMapper,Menu> implements IMe
         this.findListAll();
         return count;
     }
+    @Override
+    @Transactional(readOnly = false)
     public int remove(String id){
         Menu menu = this.get(id);
         if(menu.getParentId().equals(0)){

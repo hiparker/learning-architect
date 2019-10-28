@@ -6,13 +6,15 @@ import com.edwin.practive.springbootmvcframe.core.web.BaseController;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.Menu;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.Role;
 import com.edwin.practive.springbootmvcframe.modules.sys.entity.User;
-import com.edwin.practive.springbootmvcframe.modules.sys.service.*;
+import com.edwin.practive.springbootmvcframe.modules.sys.service.ILoginService;
+import com.edwin.practive.springbootmvcframe.modules.sys.service.IMenuService;
+import com.edwin.practive.springbootmvcframe.modules.sys.service.IRoleService;
+import com.edwin.practive.springbootmvcframe.modules.sys.service.MenuService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,8 +30,6 @@ public class LoginController extends BaseController{
 
     @Reference(version = "1.0.0")
     ILoginService loginService;
-    @Reference(version = "1.0.0")
-    IUserService userService;
     @Reference(version = "1.0.0")
     IRoleService roleService;
     @Reference(version = "1.0.0")
@@ -128,17 +128,6 @@ public class LoginController extends BaseController{
         AjaxJson j = new AjaxJson();
         modelMap.addAttribute("result",j);
         return "modules/sys/login/login";
-    }
-
-    @RequestMapping("getAuth")
-    @ResponseBody
-    public AjaxJson getAuth(HttpServletRequest request, ModelMap modelMap){
-        AjaxJson j = new AjaxJson();
-        User userT = (User) request.getSession().getAttribute("user");
-        LinkedHashMap<String, Object> body = new LinkedHashMap<String, Object>();
-        body.put("param",userT.getMenu());
-        j.setBody(body);
-        return j;
     }
 
     @RequestMapping("hello")

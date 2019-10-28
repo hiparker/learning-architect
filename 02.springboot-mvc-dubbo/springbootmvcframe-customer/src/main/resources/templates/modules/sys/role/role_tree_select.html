@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>角色树选择</title>
     <script th:src="@{/plugin/jquery/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/common/js/base.js}"></script>
     <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" th:href="@{/plugin/bootstrap-button/bootstrap-buttons.css}">
@@ -35,7 +36,7 @@
                     "animation" : 0,
                     "themes" : { "icons":true ,"stripes":false},
                     'data' : {
-                        "url" : "/a/role/treeData?tm="+ new Date().getTime()+"&selectIdFlag=[[${selectIdFlag}]]",
+                        "url" : config.apiPrefix+"/role/treeData?tm="+ new Date().getTime()+"&selectIdFlag=[[${selectIdFlag}]]",
                         "dataType" : "json" // needed only if you do not supply JSON headers
                     }
                 },

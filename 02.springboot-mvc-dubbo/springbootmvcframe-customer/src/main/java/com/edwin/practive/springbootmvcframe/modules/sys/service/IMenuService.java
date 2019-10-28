@@ -17,8 +17,13 @@ public interface IMenuService extends CrudInterface<Menu> {
 
     Menu getMenuMap(String key);
 
-    void setParentMenu(Map<String,Menu> menuMapTemp , List<Menu> authCopy,Set<Menu> auth);
+    void setParentMenu(Map<String, Menu> menuMapTemp, List<Menu> authCopy, Set<Menu> auth);
 
-    void recursionMenu(List<Menu> menus,Menu tree);
+    void recursionMenu(List<Menu> menus, Menu tree);
 
+    List<Menu> recursionMenuReturn(List<Menu> menus, Menu tree);
+
+    int remove(Menu menu);
+
+    int remove(String id);
 }

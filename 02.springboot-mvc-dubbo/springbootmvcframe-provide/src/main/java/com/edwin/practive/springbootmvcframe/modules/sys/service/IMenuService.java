@@ -23,4 +23,7 @@ public interface IMenuService extends CrudInterface<Menu> {
 
     List<Menu> recursionMenuReturn(List<Menu> menus, Menu tree);
 
+    int remove(Menu menu);
+
+    int remove(String id);
 }
