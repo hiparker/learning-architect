@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart.Develop 系统</title>
+    <script th:src="@{/plugin/jquery/jquery-2.0.0.min.js}"></script>
+    <script th:src="@{/common/js/base.js}"></script>
+    <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" th:href="@{/common/css/base.css}">
+    <link rel="stylesheet" th:href="@{/common/css/app-blue.css}">
+    <script th:src="@{/plugin/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/plugin/layui/layer/layer.js}"></script>
+
+    <!-- 图标库 -->
+    <link rel="stylesheet" th:href="@{/plugin/font-awesome/css/font-awesome.min.css}">
+
+    <!-- 手风琴菜单 -->
+    <script th:src="@{/plugin/sidebar-menu/js/sidebar-menu.js}"></script>
+    <link rel="stylesheet" th:href="@{/plugin/sidebar-menu/css/sidebar-menu.css}">
+
+    <script>
+        var userId = '[[${user.id}]]';
+        if(null == userId || '' == userId){
+            location.href = location.href;
+        }
+    </script>
+    <script>
+        function changeFrameHeight(){
+            var ifm = document.getElementById("main");
+            ifm.height = document.documentElement.clientHeight-56;
+        }
+        window.onresize = function(){ changeFrameHeight();}
+        $(function(){
+            //响应式
+            changeFrameHeight();
+            //菜单
+            //$.sidebarMenu($('.sidebar-menu'));
+        });
+        
+        function  userInfo() {
+            var width = "800px",height="500px";
+            var auto = true;//是否使用响应式，使用百分比时，应设置为false
+            if(width.indexOf("%")>=0 || height.indexOf("%")>=0 ){
+                auto =false;
+            }
+            top.layer.open({
+                type: 2,
+                area: [width, height],
+                title: "个人信息",
+                auto:auto,
+                maxmin: true, //开启最大化最小化按钮
+                content: config.prefix+"/user/info" ,
+                btn:  ['关闭'],
+                btn1: function(index){
+                    top.layer.close(index);
+                }
+            });
+            
+        }
+
+        function  updatePassword() {
+            var width = "800px",height="500px";
+            var auto = true;//是否使用响应式，使用百分比时，应设置为false
+            if(width.indexOf("%")>=0 || height.indexOf("%")>=0 ){
+                auto =false;
+            }
+            top.layer.open({
+                type: 2,
+                area: [width, height],
+                title: "修改密码",
+                auto:auto,
+                maxmin: true, //开启最大化最小化按钮
+                content: config.prefix+"/user/updatePasswordForm" ,
+                btn: ['确定', '关闭'],
+                yes: function(index, layero){
+                    var iframeWin = layero.find('iframe')[0]; //得到弹出的窗口对象，执行窗口内iframe页的方法：iframeWin.method();
+
+                    var val = iframeWin.contentWindow.getValueJson();
+                    if(val.password != val.valiPassword){
+                        top.layer.alert("密码不一致");
+                        return false;
+                    }
+
+                    var indexN = top.layer.msg("正在提交...", {
+                        icon: 16
+                        ,shade: 0.01,
+                        time:999999999//设置超长时间
+                    });
+
+                    $.ajax({
+                        url:config.apiPrefix+"/user/updatePassword",
+                        type:"post",
+                        data:iframeWin.contentWindow.getValue(),
+                        success:function(data){
+                            top.layer.close(indexN);
+                            if(data.success){
+                                top.layer.alert(data.msg);
+                                top.layer.close(index);
+                            }else{
+                                top.layer.alert(data.msg);
+                            }
+
+                        }
+                    });
+                },
+                cancel: function(index){
+                }
+            });
+
+        }
+        
+    </script>
+    <script>
+        var authData = {};
+        $(function(){
+
+            // 获取权限数据
+            $.ajax({
+                url:config.apiPrefix+"/account/getAuth",
+                type:"get",
+                async:false, // 关闭异步
+                success:function(data){
+                    if(data.success){
+                        menuLoading(data.body.param);
+                        authData = data.body.param;
+                        // 默认第二个菜单选中
+                        $($(".nav-menu").find("a")[1]).trigger("click");
+                    }
+                }
+            });
+
+        });
+
+
+
+        // 加载菜单
+        function menuLoading(data) {
+            if (data != null) {
+                // 第一级目录
+                if (data.children.length > 0) {
+                    var html = "";
+                    //排序
+                    listSort(data.children);
+                    for (var i = 0; i < data.children.length; i++) {
+                        var menu = data.children[i];
+                        var count = 0;
+                        for (var j = 0; j < menu.children.length; j++) {
+                            // 不等于2 则为 目录 或者菜单
+                            if(menu.children[j].type != "2"){
+                                count++;
+                                break;
+                            }
+                        }
+
+                        if(menu.type != "2"){
+                            var href = "";
+                            var aname = "";
+                            var childsnum = 0;
+                            if (null != menu.href && "" != menu.href) {
+                                if("/" != menu.href.substr(0,1)){
+                                    href = menu.href;
+                                }else{
+                                    href = "/a" + menu.href;
+                                }
+                            }
+                            if (null != menu.icon && "" != menu.icon) {
+                                aname = "<i class=\""+menu.icon+"\"></i>&nbsp;"+menu.name;
+                            }else{
+                                aname = menu.name;
+                            }
+                            if(menu.children.length > 0 && count != 0){
+                                childsnum = menu.children.length;
+                            }
+
+                            html += "<li><a href=\"javascript:void(0)\" data-type=\"" + menu.type + "\" data-key=\""+menu.id+"\" data-href=\""+href+"\" data-childsnum=\""+childsnum+"\" data-menu=\"parent\" onclick=\"menuClick(this)\" >"+ aname + "</a></li>";
+
+                            var childHtml=  "<ul class=\"sidebar-menu\" data-ulkey=\"menu_ul_"+menu.id+"\" style=\"display: none\">";
+                            // 排序
+                            listSort(menu.children);
+                            for (var k = 0; k < menu.children.length; k++) {
+                                childHtml += recursionMenu(menu.children[k]);
+                            }
+                            childHtml += "</ul>";
+
+                            $(".main-sidebar .sidebar").append(childHtml);
+
+                        }
+                    }
+
+                    //主菜单渲染
+                    $(".nav-menu").append(html);
+                    //子菜单渲染
+                    $.sidebarMenu($('.main-sidebar .sidebar-menu'));
+                }
+            }
+        }
+
+        // 递归循环 子菜单
+        function recursionMenu(data){
+            var html = "";
+            if (data != null) {
+
+                var count = 0;
+                for (var i = 0; i < data.children.length; i++) {
+                    // 不等于2 则为 目录 或者菜单
+                    if(data.children[i].type != "2"){
+                        count++;
+                        break;
+                    }
+                }
+
+                // 下级目录
+                if (data.children.length > 0 && count != 0) {
+                    var menu = data;
+                    if(menu.type != "2") {
+                        var htmlChilds = "";
+                        var href = "";
+                        var aname = "";
+                        if (null != menu.href && "" != menu.href) {
+                            if("/" != menu.href.substr(0,1)){
+                                href = menu.href;
+                            }else{
+                                href = "/a" + menu.href;
+                            }
+                        }
+                        if (null != menu.icon && "" != menu.icon) {
+                            aname = "<i class=\"" + menu.icon + "\"></i>&nbsp;" + menu.name;
+                        } else {
+                            aname = menu.name;
+                        }
+                        htmlChilds += "<li  class=\"treeview\">";
+                        htmlChilds += "<a href=\"javascript:void(0)\" data-type=\"" + menu.type + "\" data-key=\"" + menu.id + "\" data-href=\"" + href + "\" data-childsnum=\"" + data.children.length + "\" data-menu=\"child\" onclick=\"menuClick(this)\" >" + aname + "</a>";
+                        htmlChilds += "<ul class=\"treeview-menu\">";
+                        // 排序
+                        listSort(data.children);
+                        for (var i = 0; i < data.children.length; i++) {
+                            var childsMenu = data.children[i];
+                            // 递归循环子节点
+                            htmlChilds += recursionMenu(childsMenu);
+                        }
+                        htmlChilds += "</ul>";
+                        htmlChilds += "</li>";
+                        html += htmlChilds;
+                    }
+                }else{
+                    var menu = data;
+                    if(menu.type != "2"){
+                        var href = "javascript:void(0)";
+                        var aname = "";
+                        if (null != menu.href && "" != menu.href) {
+                            if("/" != menu.href.substr(0,1)){
+                                href = menu.href;
+                            }else{
+                                href = "/a" + menu.href;
+                            }
+                        }
+                        if (null != menu.icon && "" != menu.icon) {
+                            aname = "<i class=\""+menu.icon+"\"></i>&nbsp;"+"<span>"+menu.name+"</span>";
+                        }else{
+                            aname = "<span>"+menu.name+"</span>";
+                        }
+                        html += "<li><a href=\"javascript:void(0)\" data-type=\"" + menu.type + "\" data-key=\""+menu.id+"\" data-href=\""+href+"\"  data-childsnum=\"0\" data-menu=\"child\" onclick=\"menuClick(this)\">"+ aname + "</a></li>";
+                    }
+                }
+            }
+            return html;
+        }
+
+        function menuClick(dome) {
+           var obj =  $(dome);
+           if("parent" == obj.data("menu")){
+               obj.parent().parent().find("li").removeClass("active");
+               obj.parent().addClass("active");
+               if("0" == obj.data("childsnum") && "2" != obj.data("type")){
+                    $("#main").attr("src",obj.data("href"));
+               }else{
+                    $('.main-sidebar .sidebar-menu').hide();
+                    $("[data-ulkey='menu_ul_"+obj.data("key")+"']").show();
+               }
+           }else if("child" == obj.data("menu")){
+               if("0" == obj.data("childsnum") && "2" != obj.data("type")){
+                   $("#main").attr("src",obj.data("href"));
+               }
+           }
+        }
+
+        // 菜单排序
+        function listSort(data){
+            for ( var i=0;i<data.length-1;i++){
+                //每轮比较次数，次数=长度-1-此时的轮数
+                for (var j=0;j<data.length-1-i;j++) {
+                    if (data[j].sort > data[j + 1].sort) {
+                        var temp = data[j];
+                        data[j] = data[j + 1];
+                        data[j + 1] = temp;
+                    } //end if
+                }//end for 次数
+            }
+        }
+
+        function getAuth(data,href){
+            if(data != null){
+                if(null != data.href && "" != data.href && href.indexOf(data.href) != -1){
+                    return data.children;
+                }else{
+                    if(data.children.length > 0){
+                        for(var i = 0;i<data.children.length;i++){
+                            var menu  = data.children[i];
+                            var auth = getAuth(menu,href);
+                            if(auth != null ){
+                                return auth;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+
+
+    </script>
+</head>
+<body>
+    <div class="parent-container">
+            <div class="container-top">
+                <!-- 菜单 -->
+                <div class="inner-content-menu-horizontal">
+                    <nav class="navbar  navbar-inverse" role="navigation">
+                        <div class="navbar-header">
+                            <div class="navbar-header-title">
+                                <a class="navbar-brand J_menuItem" href="#" data-index="0">Smart.Develop系统</a>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div>
+                                <!--向左对齐-->
+                                <ul class="nav navbar-nav navbar-left nav-menu">
+                                    <li class="active">
+                                        <a href="javascript:void(0)" data-type="1" data-key="home" data-href="/a/account/hello"  data-childsnum="0"  data-menu="parent" onclick="menuClick(this)">主页</a>
+                                    </li>
+                                </ul>
+
+
+                                <!--向右对齐-->
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown" th:if="${user != null}">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            欢迎 [[${user.name}]]<b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="javascript:void(0)" style="cursor: pointer" onclick="userInfo()">个人信息</a></li>
+                                            <li><a href="javascript:void(0)" style="cursor: pointer"  onclick="updatePassword()">修改密码</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/account/unlogin}">退出登录</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="container-bottom">
+                <div class="container-left">
+                    <!-- 竖菜单 -->
+                    <div class="inner-content-menu-vertical">
+
+                        <aside class="main-sidebar">
+                            <section class="sidebar">
+                                <!--<ul class="sidebar-menu"></ul>-->
+                            </section>
+                        </aside>
+
+                    </div>
+                    <!-- 竖菜单结束 -->
+                </div>
+                <div class="container-right">
+                    <!-- 内容展示区域 -->
+                    <div class="inner-content-main">
+                        <iframe th:src="@{/account/hello}" id="main" name="main" frameborder="0" scrolling="auto" width="100%"></iframe>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</body>
+</html>

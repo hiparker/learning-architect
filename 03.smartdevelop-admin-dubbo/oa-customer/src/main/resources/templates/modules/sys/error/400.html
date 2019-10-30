@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>400 - 请求出错</title>
+    <script th:src="@{/plugin/jquery/jquery-2.0.0.min.js}"></script>
+    <script th:src="@{/common/js/base.js}"></script>
+    <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/plugin/bootstrap/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" th:href="@{/common/css/base.css}">
+    <link rel="stylesheet" th:href="@{/common/css/app-blue.css}">
+    <script th:src="@{/plugin/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/plugin/layui/layer/layer.js}"></script>
+
+    <!-- 图标库 -->
+    <link rel="stylesheet" th:href="@{/plugin/font-awesome/css/font-awesome.min.css}">
+
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="page-header"><h1>参数有误,服务器无法解析.</h1></div>
+		<div class="errorMessage">
+			Null
+		</div>
+		<a href="javascript:" onclick="history.go(-1);" class="btn">返回上一页</a> &nbsp;
+		<br/> <br/>
+		<script>top.layer.closeAll("dialog")</script>
+	</div>
+</body>
+</html>

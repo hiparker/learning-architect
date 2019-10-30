@@ -1,0 +1,26 @@
+#数据库jpa
+spring:
+  application:
+    name: DubboProvider
+  profiles:
+    active: @spring.active@
+  #开启 aop
+    aop:
+      proxy-target-class: true
+
+mybatis:
+  #mybatis配置文件所在路径
+  config-location: classpath:mybatis/mybatis-config.xml
+  #定义所有操作类的别名所在包
+  type-aliases-package: com.edwin.smartdevelop.modules.sys.entity
+  #所有的mapper映射文件
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+
+#打印mybatis日志
+logging:
+  level:
+    com.edwin.smartdevelop.modules.sys.mapper: debug
+
+#AES加密Key
+aeskey: 123456
+
