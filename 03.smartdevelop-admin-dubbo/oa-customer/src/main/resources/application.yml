@@ -29,7 +29,7 @@ aeskey: 123456
 webStaticFile: .css,.js,.png,.jpg,.gif,.jpeg,.bmp,.ico,.swf,.psd,.htc,.htm,.html,.crx,.xpi,.exe,.ipa,.apk
 
 #不需要拦截uri
-authUri: /account/login,/account/index,/account/getAuth,/account/hello,/wx/sig,/v2/api-docs
+authUri: /account/login,/account/index,/account/getAuth,/account/hello,/wx/sig,/static/
 
 #微信认证
 weixin:
