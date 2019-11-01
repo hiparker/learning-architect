@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edwin.smartdevelop.modules.sys.mapper.MenuMapper">
+
+	<sql id="menuColumns">
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_id AS "parentId",
+		a.parent_ids AS "parentIds",
+		a.name AS "name",
+		a.href AS "href",
+		a.target AS "target",
+		a.icon AS "icon",
+		a.sort AS "sort",
+		a.is_show AS "isVisible",
+		a.menu_type AS "type",
+		a.permission AS "permission",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+    <sql id="menuJoins">
+
+    </sql>
+
+	<select id="get"  resultType="Menu">
+		SELECT
+			<include refid="menuColumns"/>
+		FROM sys_menu a
+		<include refid="menuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findAllList" resultType="Menu">
+		SELECT
+			<include refid="menuColumns"/>
+		FROM sys_menu a
+		<include refid="menuJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		ORDER BY a.sort
+	</select>
+
+	
+	<update id="updateParentIds">
+		UPDATE sys_menu SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateSort">
+		UPDATE sys_menu SET 
+			sort = #{sort}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sys_menu 
+		WHERE id = #{id} OR parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
+					<if test="dbName == 'mssql'">'%'+#{id}+'%'</if>
+	</update>
+
+    <!-- 删除角色与菜单 -->
+    <delete id="deleteRoleMenu">
+        DELETE FROM sys_role_menu
+        WHERE menu_id = #{id}
+    </delete>
+
+	<update id="deleteByLogic">
+		UPDATE sys_menu SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id} OR parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
+					<if test="dbName == 'mssql'">'%'+#{id}+'%'</if>
+	</update>
+	
+</mapper>
